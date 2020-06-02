@@ -1,0 +1,9 @@
+<%- | String $interface | -%>
+# This file is managed by Puppet; changes may be overwritten
+
+check network <%= $interface %> with interface <%= $interface %>
+  if changed link capacity then alert
+  if saturation > 90% for 3 cycles then alert
+
+check program netspeed with path /usr/local/bin/monit_netspeed timeout 10 seconds
+  if status != 0 then alert

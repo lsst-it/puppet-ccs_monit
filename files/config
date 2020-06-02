@@ -1,0 +1,9 @@
+# This file is managed by Puppet; changes may be overwritten.
+
+set pidfile /var/run/monit.pid
+set idfile /var/cache/monit.id
+set statefile /var/cache/monit.state
+
+set eventqueue
+    basedir /var/monit
+    slots 100

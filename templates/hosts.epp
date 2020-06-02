@@ -1,0 +1,7 @@
+<%- | Array[String] $hosts | -%>
+# This file is managed by Puppet; changes may be overwritten.
+<% $hosts.each |$host| { -%>
+
+check host <%= $host %> with address <%= $host %>
+  if failed ping4 count 3 with timeout 5 seconds then alert
+<% } -%>

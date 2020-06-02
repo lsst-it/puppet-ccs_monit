@@ -1,0 +1,4 @@
+# This file is managed by Puppet; changes may be overwritten.
+
+check program hwraid with path /usr/local/bin/monit_hwraid timeout 10 seconds
+  if status != 0 then alert
