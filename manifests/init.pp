@@ -163,9 +163,15 @@ class ccs_monit (
   }
 
 
+  ## Does this look like a virtual host? This only affects some defaults.
+  $notvirt = $facts['partitions']['/dev/vda1'] ? {
+    undef   => true,
+    default => false,
+  }
+
   ## TODO try to automatically fix netspeed?
-  ## Hiera disables this on virt hosts.
-  $network = lookup('ccs_monit::network', Boolean, undef, true)
+  ## We disable this on virt hosts.
+  $network = lookup('ccs_monit::network', Boolean, undef, $notvirt)
 
   if $network {
     $main_interface = $profile::ccs::facts::main_interface
@@ -189,8 +195,8 @@ class ccs_monit (
   }
 
 
-  $ccs_pkgarchive = lookup('ccs_pkgarchive',String)
-  $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, true)
+  $ccs_pkgarchive = lookup('ccs_pkgarchive', String)
+  $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, $notvirt)
 
   if $hwraid {
 
