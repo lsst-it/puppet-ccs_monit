@@ -62,7 +62,7 @@ else
 fi
 #---------------------------------------------------------------------------
 #
-thresh=23
+thresh=25
 temp=$(ipmi-sensors -t temperature --no-header-output --comma |\
    gawk -F, '/Inlet/ {printf("%d\n",$4);}')
 if [ $temp -lt $thresh ] ; then
