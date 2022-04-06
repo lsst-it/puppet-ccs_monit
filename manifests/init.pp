@@ -196,6 +196,8 @@ class ccs_monit (
 
 
   $ccs_pkgarchive = lookup('ccs_pkgarchive', String)
+  $ccs_pkgarchive_user = lookup('ccs_pkgarchive_user', String)
+  $ccs_pkgarchive_pass = lookup('ccs_pkgarchive_pass', String)
   $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, $notvirt)
 
   if $hwraid {
@@ -210,8 +212,10 @@ class ccs_monit (
     $perc = 'perccli64'
     $percfile = "/var/tmp/${perc}"
     archive { $percfile:
-      ensure => present,
-      source => "${ccs_pkgarchive}/${perc}",
+      ensure   => present,
+      source   => "${ccs_pkgarchive}/${perc}",
+      username => $ccs_pkgarchive_user,
+      password => $ccs_pkgarchive_pass,
     }
     file { "/usr/local/bin/${perc}":
       ensure => present,
@@ -243,8 +247,10 @@ class ccs_monit (
   $exefile = "/var/tmp/${exe}"
 
   archive { $exefile:
-    ensure => present,
-    source => "${ccs_pkgarchive}/${exe}",
+    ensure   => present,
+    source   => "${ccs_pkgarchive}/${exe}",
+    username => $ccs_pkgarchive_user,
+    password => $ccs_pkgarchive_pass,
   }
 
   ## archive does not support mode.
