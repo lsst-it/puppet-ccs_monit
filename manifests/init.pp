@@ -5,10 +5,13 @@
 ##   String specifying smtp server
 ## @param alert
 ##   String giving email address to receive alerts; or an array of strings.
+## @param pkgurl
+##   String specifying URL to fetch sources from
 
 class ccs_monit (
   String $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
+  String $pkgurl = 'https://example.org',
 ) {
 
   ensure_packages(['monit', 'freeipmi'])
@@ -195,7 +198,6 @@ class ccs_monit (
   }
 
 
-  $ccs_pkgarchive = lookup('ccs_pkgarchive', String)
   $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, $notvirt)
 
   if $hwraid {
@@ -211,7 +213,7 @@ class ccs_monit (
     $percfile = "/var/tmp/${perc}"
     archive { $percfile:
       ensure => present,
-      source => "${ccs_pkgarchive}/${perc}",
+      source => "${pkgurl}/${perc}",
     }
     file { "/usr/local/bin/${perc}":
       ensure => present,
@@ -244,7 +246,7 @@ class ccs_monit (
 
   archive { $exefile:
     ensure => present,
-    source => "${ccs_pkgarchive}/${exe}",
+    source => "${pkgurl}/${exe}",
   }
 
   ## archive does not support mode.
