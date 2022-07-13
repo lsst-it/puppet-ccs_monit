@@ -7,11 +7,18 @@
 ##   String giving email address to receive alerts; or an array of strings.
 ## @param pkgurl
 ##   String specifying URL to fetch sources from
+## @param pkgurl_user
+##   String specifying username for pkgurl
+## @param pkgurl_pass
+##   String specifying password for pkgurl
+
 
 class ccs_monit (
   String $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
   String $pkgurl = 'https://example.org',
+  String $pkgurl_user = 'someuser',
+  String $pkgurl_pass = 'somepass',
 ) {
 
   ensure_packages(['monit', 'freeipmi'])
@@ -212,8 +219,10 @@ class ccs_monit (
     $perc = 'perccli64'
     $percfile = "/var/tmp/${perc}"
     archive { $percfile:
-      ensure => present,
-      source => "${pkgurl}/${perc}",
+      ensure   => present,
+      source   => "${pkgurl}/${perc}",
+      username => $pkgurl_user,
+      password => $pkgurl_pass,
     }
     file { "/usr/local/bin/${perc}":
       ensure => present,
@@ -245,8 +254,10 @@ class ccs_monit (
   $exefile = "/var/tmp/${exe}"
 
   archive { $exefile:
-    ensure => present,
-    source => "${pkgurl}/${exe}",
+    ensure   => present,
+    source   => "${pkgurl}/${exe}",
+    username => $pkgurl_user,
+    password => $pkgurl_pass,
   }
 
   ## archive does not support mode.
