@@ -191,9 +191,7 @@ class ccs_monit (
     mode   => '0755',
   }
 
-  $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, $notvirt)
-
-  if $hwraid {
+  if fact('has_dellperc') {
     $hwraidf = 'hwraid'
     file { "${monitd}/${hwraidf}":
       ensure => file,
