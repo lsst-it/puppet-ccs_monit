@@ -207,32 +207,6 @@ class ccs_monit (
     }
   }
 
-  $service = '/etc/systemd/system/monit.service'
-  exec { 'Create monit.service':
-    path    => ['/usr/bin'],
-    command => "sh -c \"sed 's|/usr/bin/monit|/usr/local/bin/monit|g' /usr/lib/systemd/system/monit.service > ${service}\"",
-    creates => $service,
-  }
-
-  ## Note that we configure this monit with --prefix=/usr so that
-  ## it consults /etc/monitrc, and install just the binary by hand.
-  $exe = 'monit'
-  $exefile = "/var/tmp/${exe}"
-
-  archive { $exefile:
-    ensure   => present,
-    source   => "${pkgurl}/${exe}",
-    username => $pkgurl_user,
-    password => $pkgurl_pass,
-  }
-
-  ## archive does not support mode.
-  file { "/usr/local/bin/${exe}":
-    ensure => file,
-    source => $exefile,
-    mode   => '0755',
-  }
-
   service { 'monit':
     ensure => running,
     enable => true,
