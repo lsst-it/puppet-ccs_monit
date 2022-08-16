@@ -12,7 +12,6 @@
 ## @param pkgurl_pass
 ##   String specifying password for pkgurl
 
-
 class ccs_monit (
   String $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
@@ -20,14 +19,12 @@ class ccs_monit (
   String $pkgurl_user = 'someuser',
   String $pkgurl_pass = 'somepass',
 ) {
-
   ensure_packages(['monit', 'freeipmi'])
 
   ## Not sure if monit creates this...
   file { '/var/monit':
     ensure => directory,
   }
-
 
   ## Change check interval from 30s to 5m.
   ## TODO? add "read-only" to the allow line?
@@ -37,7 +34,6 @@ class ccs_monit (
     line   => 'set daemon  300  # check services at 300 seconds intervals',
     notify => Service['monit'],
   }
-
 
   $monitd = '/etc/monit.d'
 
@@ -52,19 +48,17 @@ class ccs_monit (
     ensure  => file,
     content => epp(
       "${title}/${alertfile}.epp",
-      {'mailhost' => $mailhost, 'alerts' => $alerts}
+      { 'mailhost' => $mailhost, 'alerts' => $alerts }
     ),
     notify  => Service['monit'],
   }
 
-
   $config = 'config'
   file { "${monitd}/${config}":
-    ensure => present,
+    ensure => file,
     source => "puppet:///modules/${title}/${config}",
     notify => Service['monit'],
   }
-
 
   ## system:
   ## Note that the use of "per core" requires monit >= 5.26.
@@ -85,11 +79,10 @@ class ccs_monit (
   $uptime = lookup('ccs_monit::uptime', Boolean, undef, true)
 
   file { "${monitd}/${system}":
-    ensure  => present,
-    content => epp("${title}/${system}.epp", {'uptime' => $uptime}),
+    ensure  => file,
+    content => epp("${title}/${system}.epp", { 'uptime' => $uptime }),
     notify  => Service['monit'],
   }
-
 
   ## Ignoring: /boot, and in older slac installs: /scswork, /usr/vice/cache.
   ## vi do not have separate /tmp.
@@ -112,21 +105,19 @@ class ccs_monit (
   $disk = 'disks'
   file { "${monitd}/${disk}":
     ensure  => file,
-    content => epp("${title}/${disk}.epp", {'disks' => $disks}),
+    content => epp("${title}/${disk}.epp", { 'disks' => $disks }),
     notify  => Service['monit'],
   }
-
 
   ## Alert if a client loses gpfs.
   if $facts['native_gpfs'] == 'true' {
     $gpfse = 'gpfs-exists'
     file { "${monitd}/${gpfse}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${gpfse}",
       notify => Service['monit'],
     }
   }
-
 
   $gpfs = lookup('ccs_monit::gpfs', Boolean, undef, false)
 
@@ -134,12 +125,11 @@ class ccs_monit (
   if $gpfs {
     $gpfsf = 'gpfs'
     file { "${monitd}/${gpfsf}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${gpfsf}",
       notify => Service['monit'],
     }
   }
-
 
   $hosts = lookup('ccs_monit::ping_hosts', Array[String], undef, [])
 
@@ -147,31 +137,29 @@ class ccs_monit (
     $hfile = 'hosts'
     file { "${monitd}/${hfile}":
       ensure  => file,
-      content => epp("${title}/${hfile}.epp", {'hosts' => $hosts}),
+      content => epp("${title}/${hfile}.epp", { 'hosts' => $hosts }),
       notify  => Service['monit'],
     }
   }
-
 
   $temp = lookup('ccs_monit::temp', Boolean, undef, false)
 
   if $temp {
     $itemp = 'inlet-temp'
     file { "${monitd}/${itemp}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${itemp}",
       notify => Service['monit'],
     }
 
     $etemp = 'monit_inlet_temp'
     file { "/usr/local/bin/${etemp}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${etemp}",
       mode   => '0755',
       notify => Service['monit'],
     }
   }
-
 
   ## Does this look like a virtual host? This only affects some defaults.
   $notvirt = $facts['partitions']['/dev/vda1'] ? {
@@ -190,28 +178,25 @@ class ccs_monit (
       ensure  => file,
       content => epp(
         "${title}/${nfile}.epp",
-        {'interface' => $main_interface}
+        { 'interface' => $main_interface }
       ),
       notify  => Service['monit'],
     }
   }
 
-
   $netspeed = 'monit_netspeed'
   file { "/usr/local/bin/${netspeed}":
-    ensure => present,
+    ensure => file,
     source => "puppet:///modules/${title}/${netspeed}",
     mode   => '0755',
   }
 
-
   $hwraid = lookup('ccs_monit::hwraid', Boolean, undef, $notvirt)
 
   if $hwraid {
-
     $hwraidf = 'hwraid'
     file { "${monitd}/${hwraidf}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${hwraidf}",
       notify => Service['monit'],
     }
@@ -225,7 +210,7 @@ class ccs_monit (
       password => $pkgurl_pass,
     }
     file { "/usr/local/bin/${perc}":
-      ensure => present,
+      ensure => file,
       source => $percfile,
       mode   => '0755',
     }
@@ -233,12 +218,11 @@ class ccs_monit (
     ## Needs the raid utility (eg perccli64) to be installed.
     $hexe = 'monit_hwraid'
     file { "/usr/local/bin/${hexe}":
-      ensure => present,
+      ensure => file,
       source => "puppet:///modules/${title}/${hexe}",
       mode   => '0755',
     }
   }
-
 
   $service = '/etc/systemd/system/monit.service'
   exec { 'Create monit.service':
@@ -246,7 +230,6 @@ class ccs_monit (
     command => "sh -c \"sed 's|/usr/bin/monit|/usr/local/bin/monit|g' /usr/lib/systemd/system/monit.service > ${service}\"",
     creates => $service,
   }
-
 
   ## Note that we configure this monit with --prefix=/usr so that
   ## it consults /etc/monitrc, and install just the binary by hand.
@@ -262,16 +245,12 @@ class ccs_monit (
 
   ## archive does not support mode.
   file { "/usr/local/bin/${exe}":
-    ensure => present,
+    ensure => file,
     source => $exefile,
     mode   => '0755',
   }
 
-
   service { 'monit':
     ensure => running,
     enable => true,
-  }
-
-
-}
+} }
