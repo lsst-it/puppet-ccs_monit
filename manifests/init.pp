@@ -199,20 +199,6 @@ class ccs_monit (
       notify => Service['monit'],
     }
 
-    $perc = 'perccli64'
-    $percfile = "/var/tmp/${perc}"
-    archive { $percfile:
-      ensure   => present,
-      source   => "${pkgurl}/${perc}",
-      username => $pkgurl_user,
-      password => $pkgurl_pass,
-    }
-    file { "/usr/local/bin/${perc}":
-      ensure => file,
-      source => $percfile,
-      mode   => '0755',
-    }
-
     ## Needs the raid utility (eg perccli64) to be installed.
     $hexe = 'monit_hwraid'
     file { "/usr/local/bin/${hexe}":
