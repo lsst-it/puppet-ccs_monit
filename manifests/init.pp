@@ -172,7 +172,7 @@ class ccs_monit (
   $network = lookup('ccs_monit::network', Boolean, undef, $notvirt)
 
   if $network {
-    $main_interface = $profile::ccs::facts::main_interface
+    $main_interface = fact('networking.primary')
     $nfile = 'network'
     file { "${monitd}/${nfile}":
       ensure  => file,
