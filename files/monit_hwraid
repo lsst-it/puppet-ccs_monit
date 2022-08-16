@@ -21,6 +21,7 @@ type -ap $raid >& /dev/null || {
     exit 1
 }
 
+# shellcheck disable=SC2086
 stat=$($raid $args 2> /dev/null | grep $patt)
 
 [ "$1" = "-p" ] && echo "$stat"

@@ -11,9 +11,10 @@ eth0=$(nmcli -g ip4.address,general.device dev show 2> /dev/null | \
   gawk '/^(134|140|139)/ {getline; print $0; exit}')
 
 [ "$eth0" ] || {
-    read uptime idle < /proc/uptime
+    # shellcheck disable=SC2034
+    read -r uptime idle < /proc/uptime
     ## Avoid bogus warnings right after reboot.
-    [ ${uptime%%.*} -lt 180 ] && exit 0
+    [ "${uptime%%.*}" -lt 180 ] && exit 0
     echo "$HOSTNAME: Unable to determine primary network interface"
     exit 1
 }
@@ -21,9 +22,9 @@ eth0=$(nmcli -g ip4.address,general.device dev show 2> /dev/null | \
 ## If a bridge, find the real interface.
 ## Eg lsst-vs01 shows "p5p1" and "vnet0".
 ip -br link show type bridge | grep -q "^$eth0 " && \
-    eth0=$(ip -c -br link show master $eth0 | grep -v ^v | cut -f1 -d' ')
+    eth0=$(ip -c -br link show master "$eth0" | grep -v ^v | cut -f1 -d' ')
 
-speed=$(ethtool $eth0 2> /dev/null | sed -n 's/.*Speed: *\([0-9]*\).*/\1/p')
+speed=$(ethtool "$eth0" 2> /dev/null | sed -n 's/.*Speed: *\([0-9]*\).*/\1/p')
 
 case $speed in
     ""|*[^0-9]*) echo "Non-integer speed: $speed" ; exit 1 ;;
@@ -38,7 +39,7 @@ esac
 [ "$1" = "-p" ] && \
     echo "Interface = $eth0, speed = $speed, expected = $expected"
 
-[ $speed -ge $expected ] && exit 0
+[ "$speed" -ge "$expected" ] && exit 0
 
 echo "Speed is low: $speed < $expected"
 

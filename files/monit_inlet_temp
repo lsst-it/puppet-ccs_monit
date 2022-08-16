@@ -25,9 +25,9 @@ printf "%s\n" "$*" >&2;
 # called on trap triggered exit
 function cleanexit {
 set +u
-rm -f $LOCKFILE
+rm -f "$LOCKFILE"
 echoerr -n "cleanexit(): "
-echoerr $(date --utc '+%Y%m%d%H%M%S')
+echoerr "$(date --utc '+%Y%m%d%H%M%S')"
 exit $?
 }
 
@@ -40,7 +40,6 @@ exit $?
 #fi
 
 LOCKDIR=/tmp
-PROGPATH=$0
 PROG=${0##*/}
 PID=$$
 dir0=$PWD
@@ -56,7 +55,7 @@ then
     trap cleanexit INT TERM EXIT
 else
     echoerr "Failed to acquire lockfile: $LOCKFILE."
-    echoerr "Held by PID $(< $LOCKFILE)"
+    echoerr "Held by PID $(< "$LOCKFILE")"
     echoerr "exiting"
     exit 1
 fi
@@ -65,19 +64,18 @@ fi
 thresh=25
 temp=$(ipmi-sensors -t temperature --no-header-output --comma |\
    gawk -F, '/Inlet/ {printf("%d\n",$4);}')
-if [ $temp -lt $thresh ] ; then
-   echoerr Inlet temp=$temp \< threshold=$thresh
+if [ "$temp" -lt "$thresh" ] ; then
+   echoerr Inlet temp="$temp" \< threshold=$thresh
    retval=0
 else
-   echoerr Inlet air temp=$temp \> threshold=$thresh
+   echoerr Inlet air temp="$temp" \> threshold=$thresh
    retval=$temp
 fi
 #---------------------------------------------------------------------------
 #- end of script, remove trap
 #---------------------------------------------------------------------------
 trap - INT TERM EXIT
-rm -f $LOCKFILE
-cd $dir0
-echoerr exit at: $(date --utc '+%Y%m%d%H%M%S')
-exit $retval
-
+rm -f "$LOCKFILE"
+cd "$dir0" || exit "$retval"
+echoerr exit at: "$(date --utc '+%Y%m%d%H%M%S')"
+exit "$retval"
