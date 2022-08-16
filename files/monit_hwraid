@@ -4,7 +4,7 @@
 ## Check the status of hardware raid.
 ## Assumes the relevant hwraid utility is installed.
 
-PATH=$PATH:/usr/local/bin
+PATH=$PATH:/usr/local/bin:/opt/MegaRAID/perccli
 
 raid=perccli64
 args="/c0/vall show"
