@@ -11,6 +11,16 @@
 #   String specifying username for pkgurl
 # @param pkgurl_pass
 #   String specifying password for pkgurl
+# @param uptime
+#   Monitor uptime
+# @param gpfs
+#   Monitor gpfs
+# @param hosts
+#   Monitor hosts
+# @param temp
+#   Monitor temp
+# @param network
+#   Monitor networks
 #
 class ccs_monit (
   String $mailhost = 'localhost',
@@ -18,6 +28,11 @@ class ccs_monit (
   String $pkgurl = 'https://example.org',
   String $pkgurl_user = 'someuser',
   String $pkgurl_pass = 'somepass',
+  Boolean $uptime = true,
+  Boolean $gpfs = false,
+  Array[String] $hosts = [],
+  Boolean $temp = false,
+  Boolean $network = true,
 ) {
   ensure_packages(['monit', 'freeipmi'])
 
@@ -76,8 +91,6 @@ class ccs_monit (
 
   $system = 'system'
 
-  $uptime = lookup('ccs_monit::uptime', Boolean, undef, true)
-
   file { "${monitd}/${system}":
     ensure  => file,
     content => epp("${title}/${system}.epp", { 'uptime' => $uptime }),
@@ -119,8 +132,6 @@ class ccs_monit (
     }
   }
 
-  $gpfs = lookup('ccs_monit::gpfs', Boolean, undef, false)
-
   ## Check gpfs capacity.
   if $gpfs {
     $gpfsf = 'gpfs'
@@ -131,8 +142,6 @@ class ccs_monit (
     }
   }
 
-  $hosts = lookup('ccs_monit::ping_hosts', Array[String], undef, [])
-
   unless empty($hosts) {
     $hfile = 'hosts'
     file { "${monitd}/${hfile}":
@@ -141,8 +150,6 @@ class ccs_monit (
       notify  => Service['monit'],
     }
   }
-
-  $temp = lookup('ccs_monit::temp', Boolean, undef, false)
 
   if $temp {
     $itemp = 'inlet-temp'
@@ -161,17 +168,9 @@ class ccs_monit (
     }
   }
 
-  ## Does this look like a virtual host? This only affects some defaults.
-  $notvirt = $facts['partitions']['/dev/vda1'] ? {
-    undef   => true,
-    default => false,
-  }
-
   ## TODO try to automatically fix netspeed?
   ## We disable this on virt hosts.
-  $network = lookup('ccs_monit::network', Boolean, undef, $notvirt)
-
-  if $network {
+  if $network and !fact('is_virtual') {
     $main_interface = fact('networking.primary')
     $nfile = 'network'
     file { "${monitd}/${nfile}":
