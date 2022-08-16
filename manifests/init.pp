@@ -1,17 +1,17 @@
-## @summary
-##   Install and configure monit.
-##
-## @param mailhost
-##   String specifying smtp server
-## @param alert
-##   String giving email address to receive alerts; or an array of strings.
-## @param pkgurl
-##   String specifying URL to fetch sources from
-## @param pkgurl_user
-##   String specifying username for pkgurl
-## @param pkgurl_pass
-##   String specifying password for pkgurl
-
+# @summary
+#   Install and configure monit.
+#
+# @param mailhost
+#   String specifying smtp server
+# @param alert
+#   String giving email address to receive alerts; or an array of strings.
+# @param pkgurl
+#   String specifying URL to fetch sources from
+# @param pkgurl_user
+#   String specifying username for pkgurl
+# @param pkgurl_pass
+#   String specifying password for pkgurl
+#
 class ccs_monit (
   String $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
@@ -253,4 +253,5 @@ class ccs_monit (
   service { 'monit':
     ensure => running,
     enable => true,
-} }
+  }
+}
