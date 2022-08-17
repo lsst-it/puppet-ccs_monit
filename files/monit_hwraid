@@ -4,7 +4,7 @@
 ## Check the status of hardware raid.
 ## Assumes the relevant hwraid utility is installed.
 
-PATH=$PATH:/usr/local/bin
+PATH=$PATH:/usr/local/bin:/opt/MegaRAID/perccli
 
 raid=perccli64
 args="/c0/vall show"
@@ -21,6 +21,7 @@ type -ap $raid >& /dev/null || {
     exit 1
 }
 
+# shellcheck disable=SC2086
 stat=$($raid $args 2> /dev/null | grep $patt)
 
 [ "$1" = "-p" ] && echo "$stat"
