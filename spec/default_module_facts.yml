@@ -1,0 +1,4 @@
+---
+mountpoints:
+  /:
+    device: '/dev/mapper/root'
