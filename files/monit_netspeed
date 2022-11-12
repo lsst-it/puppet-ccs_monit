@@ -32,8 +32,8 @@ esac
 
 expected=1000
 case ${HOSTNAME%%.*} in
-    lsst-ss02|*-vs0[0-9]) expected=40000 ;;
-    lsst-it0[0-9]|*d[bc][0-9][0-9]|*-fp0[0-9]|*daq0[0-9]|*-mcm|lsst-ss01) expected=10000 ;;
+    lsst-ss02|lsst-vs01) expected=40000 ;;
+    lsst-it0[0-9]|*d[bc][0-9][0-9]|*-fp0[0-9]|*-vs0[0-9]|*daq0[0-9]|*-mcm|lsst-ss01) expected=10000 ;;
 esac
 
 [ "$1" = "-p" ] && \
