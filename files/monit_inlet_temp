@@ -9,20 +9,14 @@
 #---------------------------------------------------------------------------
 #- define some functions
 #---------------------------------------------------------------------------
-# usage: email "message text"
-function email {
-mail -s "${PROG} error" "$CONTACT" <<EOF
-$1
-Time: $(date)
-EOF
-}
-
 # echo to send to stderr instead of stdout
 function echoerr {
 printf "%s\n" "$*" >&2;
 }
 
 # called on trap triggered exit
+# s-check does not notice traps.
+# shellcheck disable=SC2317
 function cleanexit {
 set +u
 rm -f "$LOCKFILE"
