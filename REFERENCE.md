@@ -18,18 +18,18 @@ Install and configure monit.
 
 The following parameters are available in the `ccs_monit` class:
 
-* [`mailhost`](#mailhost)
-* [`alert`](#alert)
-* [`pkgurl`](#pkgurl)
-* [`pkgurl_user`](#pkgurl_user)
-* [`pkgurl_pass`](#pkgurl_pass)
-* [`uptime`](#uptime)
-* [`gpfs`](#gpfs)
-* [`hosts`](#hosts)
-* [`temp`](#temp)
-* [`network`](#network)
+* [`mailhost`](#-ccs_monit--mailhost)
+* [`alert`](#-ccs_monit--alert)
+* [`pkgurl`](#-ccs_monit--pkgurl)
+* [`pkgurl_user`](#-ccs_monit--pkgurl_user)
+* [`pkgurl_pass`](#-ccs_monit--pkgurl_pass)
+* [`uptime`](#-ccs_monit--uptime)
+* [`gpfs`](#-ccs_monit--gpfs)
+* [`hosts`](#-ccs_monit--hosts)
+* [`temp`](#-ccs_monit--temp)
+* [`network`](#-ccs_monit--network)
 
-##### <a name="mailhost"></a>`mailhost`
+##### <a name="-ccs_monit--mailhost"></a>`mailhost`
 
 Data type: `String`
 
@@ -37,7 +37,7 @@ String specifying smtp server
 
 Default value: `'localhost'`
 
-##### <a name="alert"></a>`alert`
+##### <a name="-ccs_monit--alert"></a>`alert`
 
 Data type: `Variant[String,Array[String]]`
 
@@ -45,7 +45,7 @@ String giving email address to receive alerts; or an array of strings.
 
 Default value: `'root@localhost'`
 
-##### <a name="pkgurl"></a>`pkgurl`
+##### <a name="-ccs_monit--pkgurl"></a>`pkgurl`
 
 Data type: `String`
 
@@ -53,7 +53,7 @@ String specifying URL to fetch sources from
 
 Default value: `'https://example.org'`
 
-##### <a name="pkgurl_user"></a>`pkgurl_user`
+##### <a name="-ccs_monit--pkgurl_user"></a>`pkgurl_user`
 
 Data type: `String`
 
@@ -61,7 +61,7 @@ String specifying username for pkgurl
 
 Default value: `'someuser'`
 
-##### <a name="pkgurl_pass"></a>`pkgurl_pass`
+##### <a name="-ccs_monit--pkgurl_pass"></a>`pkgurl_pass`
 
 Data type: `String`
 
@@ -69,23 +69,23 @@ String specifying password for pkgurl
 
 Default value: `'somepass'`
 
-##### <a name="uptime"></a>`uptime`
+##### <a name="-ccs_monit--uptime"></a>`uptime`
 
 Data type: `Boolean`
 
 Monitor uptime
 
-Default value: ``true``
+Default value: `true`
 
-##### <a name="gpfs"></a>`gpfs`
+##### <a name="-ccs_monit--gpfs"></a>`gpfs`
 
 Data type: `Boolean`
 
 Monitor gpfs
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="hosts"></a>`hosts`
+##### <a name="-ccs_monit--hosts"></a>`hosts`
 
 Data type: `Array[String]`
 
@@ -93,19 +93,19 @@ Monitor hosts
 
 Default value: `[]`
 
-##### <a name="temp"></a>`temp`
+##### <a name="-ccs_monit--temp"></a>`temp`
 
 Data type: `Boolean`
 
 Monitor temp
 
-Default value: ``false``
+Default value: `false`
 
-##### <a name="network"></a>`network`
+##### <a name="-ccs_monit--network"></a>`network`
 
 Data type: `Boolean`
 
 Monitor networks
 
-Default value: ``true``
+Default value: `true`
 
