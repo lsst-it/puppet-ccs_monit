@@ -1,7 +1,6 @@
 <%- | String $mailhost, Array[String] $alerts | -%>
 # This file is managed by Puppet; changes may be overwritten
-set mailserver <%= $mailhost %>,
-               localhost
+set mailserver <%= $mailhost %>
 <% $alerts.each |$alert| { -%>
 set alert <%= $alert %> not on { instance, action } reminder 288
 <% } -%>
