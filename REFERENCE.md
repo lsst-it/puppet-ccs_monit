@@ -31,9 +31,9 @@ The following parameters are available in the `ccs_monit` class:
 
 ##### <a name="-ccs_monit--mailhost"></a>`mailhost`
 
-Data type: `String`
+Data type: `Variant[String,Array[String]]`
 
-String specifying smtp server
+String specifying smtp server; or an array of strings.
 
 Default value: `'localhost'`
 

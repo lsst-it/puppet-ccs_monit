@@ -2,7 +2,7 @@
 #   Install and configure monit.
 #
 # @param mailhost
-#   String specifying smtp server
+#   String specifying smtp server; or an array of strings.
 # @param alert
 #   String giving email address to receive alerts; or an array of strings.
 # @param pkgurl
@@ -23,7 +23,7 @@
 #   Monitor networks
 #
 class ccs_monit (
-  String $mailhost = 'localhost',
+  Variant[String,Array[String]] $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
   String $pkgurl = 'https://example.org',
   String $pkgurl_user = 'someuser',
@@ -58,12 +58,18 @@ class ccs_monit (
     $alerts = $alert
   }
 
+  if $mailhost =~ Array {
+    $mailhosts = join($mailhost, ', ')
+  } else {
+    $mailhosts = $mailhost
+  }
+
   $alertfile = 'alert'
   file { "${monitd}/${alertfile}":
     ensure  => file,
     content => epp(
       "${title}/${alertfile}.epp",
-      { 'mailhost' => $mailhost, 'alerts' => $alerts }
+      { 'mailhost' => $mailhosts, 'alerts' => $alerts }
     ),
     notify  => Service['monit'],
   }
