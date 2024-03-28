@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.2.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.0) (2024-03-26)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.1.0...v2.2.0)
+
+**Implemented enhancements:**
+
+- Allow multiple mailservers, default to localhost [\#20](https://github.com/lsst-it/puppet-ccs_monit/pull/20) ([glennmorris](https://github.com/glennmorris))
+
 ## [v2.1.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.1.0) (2023-08-22)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.0.0...v2.1.0)

@@ -26,9 +26,13 @@ stat=$($raid $args 2> /dev/null | grep $patt)
 
 [ "$1" = "-p" ] && echo "$stat"
 
+## No RAID configured.
+## We used to return an error here, but several systems have RAID
+## controllers but no configured RAID disks, so now we are just silent.
 [ "$stat" ] || {
-    echo "Unable to get RAID status"
-    exit 1
+    #echo "Unable to get RAID status"
+    #exit 1
+    exit 0
 }
 
 echo "$stat" | grep -qv $ok || exit 0
