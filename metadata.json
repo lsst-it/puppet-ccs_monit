@@ -1,6 +1,6 @@
 {
   "name": "lsst-ccs_monit",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "author": "AURA/LSST/SLAC",
   "summary": "Manage monit.",
   "license": "Apache-2.0",

@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.2.1](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.1) (2024-03-28)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.0...v2.2.1)
+
+**Implemented enhancements:**
+
+- \(files/monit\_hwraid\) no error if RAID not configured [\#21](https://github.com/lsst-it/puppet-ccs_monit/pull/21) ([glennmorris](https://github.com/glennmorris))
+
 ## [v2.2.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.0) (2024-03-26)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.1.0...v2.2.0)
