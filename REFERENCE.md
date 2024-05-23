@@ -20,9 +20,6 @@ The following parameters are available in the `ccs_monit` class:
 
 * [`mailhost`](#-ccs_monit--mailhost)
 * [`alert`](#-ccs_monit--alert)
-* [`pkgurl`](#-ccs_monit--pkgurl)
-* [`pkgurl_user`](#-ccs_monit--pkgurl_user)
-* [`pkgurl_pass`](#-ccs_monit--pkgurl_pass)
 * [`uptime`](#-ccs_monit--uptime)
 * [`gpfs`](#-ccs_monit--gpfs)
 * [`hosts`](#-ccs_monit--hosts)
@@ -44,30 +41,6 @@ Data type: `Variant[String,Array[String]]`
 String giving email address to receive alerts; or an array of strings.
 
 Default value: `'root@localhost'`
-
-##### <a name="-ccs_monit--pkgurl"></a>`pkgurl`
-
-Data type: `String`
-
-String specifying URL to fetch sources from
-
-Default value: `'https://example.org'`
-
-##### <a name="-ccs_monit--pkgurl_user"></a>`pkgurl_user`
-
-Data type: `String`
-
-String specifying username for pkgurl
-
-Default value: `'someuser'`
-
-##### <a name="-ccs_monit--pkgurl_pass"></a>`pkgurl_pass`
-
-Data type: `String`
-
-String specifying password for pkgurl
-
-Default value: `'somepass'`
 
 ##### <a name="-ccs_monit--uptime"></a>`uptime`
 
