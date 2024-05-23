@@ -5,12 +5,6 @@
 #   String specifying smtp server; or an array of strings.
 # @param alert
 #   String giving email address to receive alerts; or an array of strings.
-# @param pkgurl
-#   String specifying URL to fetch sources from
-# @param pkgurl_user
-#   String specifying username for pkgurl
-# @param pkgurl_pass
-#   String specifying password for pkgurl
 # @param uptime
 #   Monitor uptime
 # @param gpfs
@@ -25,9 +19,6 @@
 class ccs_monit (
   Variant[String,Array[String]] $mailhost = 'localhost',
   Variant[String,Array[String]] $alert = 'root@localhost',
-  String $pkgurl = 'https://example.org',
-  String $pkgurl_user = 'someuser',
-  String $pkgurl_pass = 'somepass',
   Boolean $uptime = true,
   Boolean $gpfs = false,
   Array[String] $hosts = [],
