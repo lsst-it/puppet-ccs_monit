@@ -36,6 +36,11 @@ case ${HOSTNAME%%.*} in
     lsst-it0[0-9]|*d[bc][0-9][0-9]|*-fp0[0-9]|*-vs0[0-9]|*daq0[0-9]|*-mcm|lsst-ss01) expected=10000 ;;
 esac
 
+## https://rubin-obs.slack.com/archives/C07QM70QAR2/p1728940731554179
+case $HOSTNAME in
+    auxtel-mcm.cp.*|auxtel-fp01.cp.*) expected=1000 ;;
+esac
+
 [ "$1" = "-p" ] && \
     echo "Interface = $eth0, speed = $speed, expected = $expected"
 
