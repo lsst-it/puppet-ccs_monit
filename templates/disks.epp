@@ -1,8 +1,9 @@
-<%- | Hash[String, String] $disks | -%>
-# This file is managed by Puppet; changes may be overwritten.
-<% $disks.each |$key, $value| { -%>
+<%- | Array[Hash] $disks | -%>
 
-check filesystem <%= $key %> with path <%= $value %>
-     if space usage > 90% then alert
-     if inode usage > 90% then alert
+# This file is managed by Puppet; changes may be overwritten.
+<% $disks.each |$disk| { -%>
+
+check filesystem <%= $disk['name'] %> with path <%= $disk['path'] %>
+     if space usage > <%= $disk['space'] %>% then alert
+     if inode usage > <%= $disk['inode'] %>% then alert
 <% } -%>
