@@ -4,6 +4,35 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.3.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.3.0) (2025-03-28)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.3...v2.3.0)
+
+**Implemented enhancements:**
+
+- Allow specification of disk monitoring parameters. [\#33](https://github.com/lsst-it/puppet-ccs_monit/pull/33) ([glennmorris](https://github.com/glennmorris))
+
+## [v2.2.3](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.3) (2024-10-17)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.2...v2.2.3)
+
+**Breaking changes:**
+
+- Remove unused pkgurl parameters [\#24](https://github.com/lsst-it/puppet-ccs_monit/pull/24) ([glennmorris](https://github.com/glennmorris))
+
+**Implemented enhancements:**
+
+- \(files/monit\_netspeed\) tweak expected auxtel.cp speeds [\#30](https://github.com/lsst-it/puppet-ccs_monit/pull/30) ([glennmorris](https://github.com/glennmorris))
+- \(puppet-ccs\_monit\) add apache license [\#23](https://github.com/lsst-it/puppet-ccs_monit/pull/23) ([dtapiacl](https://github.com/dtapiacl))
+
+## [v2.2.2](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.2) (2024-04-17)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.1...v2.2.2)
+
+**Fixed bugs:**
+
+- Fix typo in netspeed script [\#22](https://github.com/lsst-it/puppet-ccs_monit/pull/22) ([glennmorris](https://github.com/glennmorris))
+
 ## [v2.2.1](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.2.1) (2024-03-28)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.0...v2.2.1)
