@@ -15,6 +15,9 @@
 #   Monitor temp
 # @param network
 #   Monitor networks
+# @param disks
+#   Hash of hashes overriding parameters for monitored disks. Of the form:
+#   '/path' => { space => 99, ... }
 #
 class ccs_monit (
   Variant[String,Array[String]] $mailhost = 'localhost',
@@ -24,6 +27,7 @@ class ccs_monit (
   Array[String] $hosts = [],
   Boolean $temp = false,
   Boolean $network = true,
+  Hash $disks = {},
 ) {
   ensure_packages(['monit', 'freeipmi'])
 
@@ -94,28 +98,58 @@ class ccs_monit (
     notify  => Service['monit'],
   }
 
-  ## Ignoring: /boot, and in older slac installs: /scswork, /usr/vice/cache.
-  ## vi do not have separate /tmp.
+  ## Ignoring: /boot
   ## dc nodes have /data.
-  ## Older installs have separate /opt /scratch /var.
+  ## Older slac installs have separate /opt /scratch /var.
   ## Newer ones have /home instead.
   ## TODO loop over mount points instead?
   ## Can also do IO rates.
-  $disks = {
-    'root'    => '/',
-    'tmp'     => '/tmp',
-    'home'    => '/home',
-    'data'    => '/data',
-    'opt'     => '/opt',
-    'var'     => '/var',
-    'scratch' => '/scratch',
-    'lsst-ir2db01' => '/lsst-ir2db01',
-  }.filter|$key,$value| { $facts['mountpoints'][$value] }
+  $diskpaths = [
+    '/',
+    '/data',
+    '/home',
+    '/lsst-ir2db01',
+    '/opt',
+    '/scratch',
+    '/tmp',
+    '/var',
+  ].filter|$path| { $facts['mountpoints'][$path] }
 
-  $disk = 'disks'
-  file { "${monitd}/${disk}":
+  ## Default percentages at which to warn.
+  $space = 90
+  $inode = 90
+
+  ## List of hashes:
+  ## name => name, part => partition, space => space, inode => inode
+  ## where hiera can override, eg:
+  ##  /data: {space: 99, inode: 95}
+  $eppdisks = $diskpaths.map|$path| {
+    $defaults = {
+      'path'  => $path,
+      'name'  => case $path {
+        '/': {
+          'root'
+        }
+        default: {
+          regsubst($path, '^/', '')
+        }
+      },
+      'space' => $space,
+      'inode' => $inode,
+    }
+
+    if $path in $disks {
+      $val = $defaults + $disks[$path] # second hash overrides
+    } else {
+      $val = $defaults
+    }
+
+    $val
+  }
+
+  file { "${monitd}/disks":
     ensure  => file,
-    content => epp("${title}/${disk}.epp", { 'disks' => $disks }),
+    content => epp("${title}/disks.epp", { 'disks' => $eppdisks }),
     notify  => Service['monit'],
   }
 

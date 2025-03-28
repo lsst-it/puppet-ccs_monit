@@ -25,6 +25,7 @@ The following parameters are available in the `ccs_monit` class:
 * [`hosts`](#-ccs_monit--hosts)
 * [`temp`](#-ccs_monit--temp)
 * [`network`](#-ccs_monit--network)
+* [`disks`](#-ccs_monit--disks)
 
 ##### <a name="-ccs_monit--mailhost"></a>`mailhost`
 
@@ -81,4 +82,13 @@ Data type: `Boolean`
 Monitor networks
 
 Default value: `true`
+
+##### <a name="-ccs_monit--disks"></a>`disks`
+
+Data type: `Hash`
+
+Hash of hashes overriding parameters for monitored disks. Of the form:
+'/path' => { space => 99, ... }
+
+Default value: `{}`
 
