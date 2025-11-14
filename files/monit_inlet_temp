@@ -16,7 +16,7 @@ printf "%s\n" "$*" >&2;
 
 # called on trap triggered exit
 # s-check does not notice traps.
-# shellcheck disable=SC2317
+# shellcheck disable=SC2317 disable=SC2329
 function cleanexit {
 set +u
 rm -f "$LOCKFILE"
