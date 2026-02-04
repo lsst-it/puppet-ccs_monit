@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.0.0) (2026-02-04)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.3.0...v3.0.0)
+
+**Breaking changes:**
+
+- drop puppet7 support [\#49](https://github.com/lsst-it/puppet-ccs_monit/pull/49) ([jhoblitt](https://github.com/jhoblitt))
+
+**Fixed bugs:**
+
+- \(files/monit\_netspeed\) handle bonds [\#48](https://github.com/lsst-it/puppet-ccs_monit/pull/48) ([glennmorris](https://github.com/glennmorris))
+
 ## [v2.3.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v2.3.0) (2025-03-28)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.2.3...v2.3.0)
