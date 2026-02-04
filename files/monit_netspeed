@@ -24,6 +24,9 @@ eth0=$(nmcli -g ip4.address,general.device dev show 2> /dev/null | \
 ip -br link show type bridge | grep -q "^$eth0 " && \
     eth0=$(ip -br link show master "$eth0" | grep -v ^v | cut -f1 -d' ')
 
+## Eg lsstcam-dc1: go from "bond0.1511@bond0" to "bond0.1511".
+eth0=${eth0%@bond*}
+
 speed=$(ethtool "$eth0" 2> /dev/null | sed -n 's/.*Speed: *\([0-9]*\).*/\1/p')
 
 case $speed in
