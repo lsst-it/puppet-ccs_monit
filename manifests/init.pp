@@ -36,7 +36,7 @@ class ccs_monit (
   Hash $disks = {},
   Boolean $webhook = false,
   String[1] $webhook_exe = '/usr/local/bin/monit_webhook',
-  Optional[Variant[Sensitive[String[1]],String[1]]] $webhook_url = undef,
+  Sensitive[String[1]] $webhook_url = Sensitive('http://localhost'),
 ) {
   ensure_packages(['monit', 'freeipmi'])
 
