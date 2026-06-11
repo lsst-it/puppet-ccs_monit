@@ -26,6 +26,9 @@ The following parameters are available in the `ccs_monit` class:
 * [`temp`](#-ccs_monit--temp)
 * [`network`](#-ccs_monit--network)
 * [`disks`](#-ccs_monit--disks)
+* [`webhook`](#-ccs_monit--webhook)
+* [`webhook_exe`](#-ccs_monit--webhook_exe)
+* [`webhook_url`](#-ccs_monit--webhook_url)
 
 ##### <a name="-ccs_monit--mailhost"></a>`mailhost`
 
@@ -91,4 +94,28 @@ Hash of hashes overriding parameters for monitored disks. Of the form:
 '/path' => { space => 99, ... }
 
 Default value: `{}`
+
+##### <a name="-ccs_monit--webhook"></a>`webhook`
+
+Data type: `Boolean`
+
+If non-nil, send alerts via webhook rather than by email.
+
+Default value: `false`
+
+##### <a name="-ccs_monit--webhook_exe"></a>`webhook_exe`
+
+Data type: `String[1]`
+
+Full name for installed webhook script.
+
+Default value: `'/usr/local/bin/monit_webhook'`
+
+##### <a name="-ccs_monit--webhook_url"></a>`webhook_url`
+
+Data type: `Optional[Variant[Sensitive[String[1]],String[1]]]`
+
+Webhook URL to send alerts to.
+
+Default value: `undef`
 
