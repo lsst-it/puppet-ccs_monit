@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.1.0) (2026-06-11)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.0.0...v3.1.0)
+
+**Implemented enhancements:**
+
+- Add option to send alerts via a webhook [\#52](https://github.com/lsst-it/puppet-ccs_monit/pull/52) ([glennmorris](https://github.com/glennmorris))
+- Update dependency voxpupuli-test to v14 [\#51](https://github.com/lsst-it/puppet-ccs_monit/pull/51) ([renovate[bot]](https://github.com/apps/renovate))
+- Update dependency puppet\_metadata to v6 [\#47](https://github.com/lsst-it/puppet-ccs_monit/pull/47) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/checkout action to v6 [\#46](https://github.com/lsst-it/puppet-ccs_monit/pull/46) ([renovate[bot]](https://github.com/apps/renovate))
+- Update actions/labeler action to v6 [\#41](https://github.com/lsst-it/puppet-ccs_monit/pull/41) ([renovate[bot]](https://github.com/apps/renovate))
+
 ## [v3.0.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.0.0) (2026-02-04)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v2.3.0...v3.0.0)
