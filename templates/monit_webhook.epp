@@ -1,0 +1,31 @@
+<%- |String $url| -%>
+#!/bin/bash
+# This file is managed by Puppet; changes may be overwritten
+#
+# https://mmonit.com/wiki/MMonit/SlackNotification
+# https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks
+#
+# instead of "then alert", use "then exec script.sh [alert]"
+
+url="<%= $url %>"
+
+header="Content-Type: application/json"
+
+HOST="${MONIT_HOST:-Unknown host}"
+DATE="${MONIT_DATE:-Unknown date}"
+EVENT="${MONIT_EVENT:-Unknown event}"
+SERVICE="${MONIT_SERVICE:-Unknown service}"
+ACTION="${1:-alert}"  # there is no MONIT_ACTION
+DESCRIPTION="${MONIT_DESCRIPTION:-Unknown description}"
+
+text="*monit alert -- $HOST $SERVICE $EVENT*
+
+$EVENT service $SERVICE
+
+Date:        $DATE
+Host:        $HOST
+Action:      $ACTION
+Description: $DESCRIPTION
+"
+
+/usr/bin/curl -X POST -H "$header" -d "{ \"text\": \"$text\" }" "$url"

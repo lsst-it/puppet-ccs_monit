@@ -1,12 +1,12 @@
-<%- |Boolean $uptime| -%>
+<%- |Boolean $uptime, String $action| -%>
 # This file is managed by Puppet; changes may be overwritten.
 
 check system $HOST
-  if loadavg (1min) per core > 2 for 3 cycles then alert
-  if loadavg (5min) per core > 1.5 for 5 cycles then alert
-  if cpu usage > 95% for 3 cycles then alert
-  if memory usage > 90% for 3 cycles then alert
-  if swap usage > 75% for 3 cycles then alert
+  if loadavg (1min) per core > 2 for 3 cycles then <%= $action %>
+  if loadavg (5min) per core > 1.5 for 5 cycles then <%= $action %>
+  if cpu usage > 95% for 3 cycles then <%= $action %>
+  if memory usage > 90% for 3 cycles then <%= $action %>
+  if swap usage > 75% for 3 cycles then <%= $action %>
 <%- if $uptime { -%>
-  if uptime < 15 minutes then alert
+  if uptime < 15 minutes then <%= $action %>
 <% } -%>
