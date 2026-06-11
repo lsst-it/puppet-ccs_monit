@@ -113,9 +113,9 @@ Default value: `'/usr/local/bin/monit_webhook'`
 
 ##### <a name="-ccs_monit--webhook_url"></a>`webhook_url`
 
-Data type: `Optional[Variant[Sensitive[String[1]],String[1]]]`
+Data type: `Sensitive[String[1]]`
 
 Webhook URL to send alerts to.
 
-Default value: `undef`
+Default value: `Sensitive('http://localhost')`
 
