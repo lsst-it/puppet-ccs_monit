@@ -18,6 +18,12 @@
 # @param disks
 #   Hash of hashes overriding parameters for monitored disks. Of the form:
 #   '/path' => { space => 99, ... }
+# @param webhook
+#   If non-nil, send alerts via webhook rather than by email.
+# @param webhook_exe
+#   Full name for installed webhook script.
+# @param webhook_url
+#   Webhook URL to send alerts to.
 #
 class ccs_monit (
   Variant[String,Array[String]] $mailhost = 'localhost',
@@ -28,6 +34,9 @@ class ccs_monit (
   Boolean $temp = false,
   Boolean $network = true,
   Hash $disks = {},
+  Boolean $webhook = false,
+  String[1] $webhook_exe = '/usr/local/bin/monit_webhook',
+  Optional[Variant[Sensitive[String[1]],String[1]]] $webhook_url = undef,
 ) {
   ensure_packages(['monit', 'freeipmi'])
 
@@ -46,6 +55,21 @@ class ccs_monit (
   }
 
   $monitd = '/etc/monit.d'
+
+  if $webhook {
+    $action = "exec ${webhook_exe}"
+
+    file { $webhook_exe:
+      ensure  => file,
+      mode    => '0755',
+      content => epp(
+        "${title}/monit_webhook.epp",
+        { 'url' => $webhook_url.unwrap }
+      ),
+    }
+  } else {
+    $action = 'alert'
+  }
 
   if $alert =~ String {
     $alerts = [$alert]
@@ -94,7 +118,10 @@ class ccs_monit (
 
   file { "${monitd}/${system}":
     ensure  => file,
-    content => epp("${title}/${system}.epp", { 'uptime' => $uptime }),
+    content => epp(
+      "${title}/${system}.epp",
+      { 'uptime' => $uptime, 'action' => $action }
+    ),
     notify  => Service['monit'],
   }
 
@@ -149,7 +176,9 @@ class ccs_monit (
 
   file { "${monitd}/disks":
     ensure  => file,
-    content => epp("${title}/disks.epp", { 'disks' => $eppdisks }),
+    content => epp("${title}/disks.epp",
+      { 'disks' => $eppdisks, 'action' => $action }
+    ),
     notify  => Service['monit'],
   }
 
@@ -157,9 +186,9 @@ class ccs_monit (
   if $facts['native_gpfs'] == 'true' {
     $gpfse = 'gpfs-exists'
     file { "${monitd}/${gpfse}":
-      ensure => file,
-      source => "puppet:///modules/${title}/${gpfse}",
-      notify => Service['monit'],
+      ensure  => file,
+      content => epp("${title}/${gpfse}.epp", { 'action' => $action }),
+      notify  => Service['monit'],
     }
   }
 
@@ -167,9 +196,9 @@ class ccs_monit (
   if $gpfs {
     $gpfsf = 'gpfs'
     file { "${monitd}/${gpfsf}":
-      ensure => file,
-      source => "puppet:///modules/${title}/${gpfsf}",
-      notify => Service['monit'],
+      ensure  => file,
+      content => epp("${title}/${gpfsf}.epp", { 'action' => $action }),
+      notify  => Service['monit'],
     }
   }
 
@@ -177,7 +206,9 @@ class ccs_monit (
     $hfile = 'hosts'
     file { "${monitd}/${hfile}":
       ensure  => file,
-      content => epp("${title}/${hfile}.epp", { 'hosts' => $hosts }),
+      content => epp("${title}/${hfile}.epp",
+        { 'hosts' => $hosts, 'action' => $action }
+      ),
       notify  => Service['monit'],
     }
   }
@@ -185,9 +216,9 @@ class ccs_monit (
   if $temp {
     $itemp = 'inlet-temp'
     file { "${monitd}/${itemp}":
-      ensure => file,
-      source => "puppet:///modules/${title}/${itemp}",
-      notify => Service['monit'],
+      ensure  => file,
+      content => epp("${title}/${itemp}.epp", { 'action' => $action }),
+      notify  => Service['monit'],
     }
 
     $etemp = 'monit_inlet_temp'
@@ -208,7 +239,7 @@ class ccs_monit (
       ensure  => file,
       content => epp(
         "${title}/${nfile}.epp",
-        { 'interface' => $main_interface }
+        { 'interface' => $main_interface, 'action' => $action }
       ),
       notify  => Service['monit'],
     }
@@ -224,9 +255,9 @@ class ccs_monit (
   if fact('has_dellperc') {
     $hwraidf = 'hwraid'
     file { "${monitd}/${hwraidf}":
-      ensure => file,
-      source => "puppet:///modules/${title}/${hwraidf}",
-      notify => Service['monit'],
+      ensure  => file,
+      content => epp("${title}/${hwraidf}.epp", { 'action' => $action }),
+      notify  => Service['monit'],
     }
 
     ## Needs the raid utility (eg perccli64) to be installed.
