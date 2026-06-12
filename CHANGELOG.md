@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.1.1](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.1.1) (2026-06-11)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.1.0...v3.1.1)
+
+**Fixed bugs:**
+
+- Add a default value for webhook\_url [\#54](https://github.com/lsst-it/puppet-ccs_monit/pull/54) ([glennmorris](https://github.com/glennmorris))
+
 ## [v3.1.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.1.0) (2026-06-11)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.0.0...v3.1.0)
