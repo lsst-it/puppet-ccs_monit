@@ -24,6 +24,8 @@
 #   Full name for installed webhook script.
 # @param webhook_url
 #   Webhook URL to send alerts to.
+# @param webhook_repeat
+#   Repeat webhook action every given number of cycles (0 means never).
 #
 class ccs_monit (
   Variant[String,Array[String]] $mailhost = 'localhost',
@@ -37,6 +39,7 @@ class ccs_monit (
   Boolean $webhook = false,
   String[1] $webhook_exe = '/usr/local/bin/monit_webhook',
   Sensitive[String[1]] $webhook_url = Sensitive('http://localhost'),
+  Integer[0] $webhook_repeat = 288, # 1 day = 288 * 5 minutes
 ) {
   ensure_packages(['monit', 'freeipmi'])
 
@@ -57,7 +60,12 @@ class ccs_monit (
   $monitd = '/etc/monit.d'
 
   if $webhook {
-    $action = "exec ${webhook_exe}"
+    $exec = "exec \"${webhook_exe}\""
+    if $webhook_repeat > 0 {
+      $action = "${exec} repeat every ${webhook_repeat} cycles"
+    } else {
+      $action = $exec
+    }
 
     file { $webhook_exe:
       ensure  => file,

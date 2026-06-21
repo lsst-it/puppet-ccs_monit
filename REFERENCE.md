@@ -29,6 +29,7 @@ The following parameters are available in the `ccs_monit` class:
 * [`webhook`](#-ccs_monit--webhook)
 * [`webhook_exe`](#-ccs_monit--webhook_exe)
 * [`webhook_url`](#-ccs_monit--webhook_url)
+* [`webhook_repeat`](#-ccs_monit--webhook_repeat)
 
 ##### <a name="-ccs_monit--mailhost"></a>`mailhost`
 
@@ -118,4 +119,12 @@ Data type: `Sensitive[String[1]]`
 Webhook URL to send alerts to.
 
 Default value: `Sensitive('http://localhost')`
+
+##### <a name="-ccs_monit--webhook_repeat"></a>`webhook_repeat`
+
+Data type: `Integer[0]`
+
+Repeat webhook action every given number of cycles (0 means never).
+
+Default value: `288`
 
