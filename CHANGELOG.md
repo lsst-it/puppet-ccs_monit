@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v3.1.1](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.1.1) (2026-06-11)
+## [v3.2.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.2.0) (2026-06-21)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.1.1...v3.2.0)
+
+**Implemented enhancements:**
+
+- Webhook repeat [\#57](https://github.com/lsst-it/puppet-ccs_monit/pull/57) ([glennmorris](https://github.com/glennmorris))
+- Update actions/checkout action to v7 [\#56](https://github.com/lsst-it/puppet-ccs_monit/pull/56) ([renovate[bot]](https://github.com/apps/renovate))
+
+## [v3.1.1](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.1.1) (2026-06-12)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.1.0...v3.1.1)
 
