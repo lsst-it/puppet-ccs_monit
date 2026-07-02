@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.3.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.3.0) (2026-07-02)
+
+[Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.2.0...v3.3.0)
+
+**Implemented enhancements:**
+
+- Improve webhook message with icons and notifications [\#59](https://github.com/lsst-it/puppet-ccs_monit/pull/59) ([glennmorris](https://github.com/glennmorris))
+
 ## [v3.2.0](https://github.com/lsst-it/puppet-ccs_monit/tree/v3.2.0) (2026-06-21)
 
 [Full Changelog](https://github.com/lsst-it/puppet-ccs_monit/compare/v3.1.1...v3.2.0)
