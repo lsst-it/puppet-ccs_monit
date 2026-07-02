@@ -16,9 +16,54 @@ DATE="${MONIT_DATE:-Unknown date}"
 EVENT="${MONIT_EVENT:-Unknown event}"
 SERVICE="${MONIT_SERVICE:-Unknown service}"
 ACTION="${1:-alert}"  # there is no MONIT_ACTION
-DESCRIPTION="${MONIT_DESCRIPTION:-Unknown description}"
+DESCRIPTION=$(echo "${MONIT_DESCRIPTION:-Unknown description}" | tr -d '"<>&')
 
-text="*monit alert -- $HOST $SERVICE $EVENT*
+here='<!here>'
+everyone='<!channel>'
+
+red=":red_circle:"
+yellow=":large_yellow_circle:"
+green=":large_green_circle:"
+
+icon=""
+notify=""
+
+level=unknown
+
+usage_limit=95
+
+case $EVENT in
+    *[Uu]ptime*) level=minor ;;
+    *Resource\ limit\ matched*)
+        [[ $DESCRIPTION == *space\ usage* ]] && {
+            level=medium
+            usage=${DESCRIPTION#space usage }
+            usage=${usage%%\%*}
+            usage=${usage%%\.*}
+            case $usage in
+                *[^0-9]*) ;;
+                *) [ "$usage" -ge "$usage_limit" ] && level=severe ;;
+            esac
+        }
+    ;;
+esac
+
+case $SERVICE in
+    hwraid) level=severe ;;
+esac
+
+case $level in
+    minor) icon="$green" ;;
+    medium) icon="$yellow" ;;
+    severe)
+        icon="$red"
+        notify="$here"
+        ;;
+esac
+
+prefix="$notify${notify:+ }$icon${icon:+ }"
+
+text="$prefix*monit alert -- $HOST $SERVICE $EVENT*
 
 $EVENT service $SERVICE
 
